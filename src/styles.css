@@ -2,3 +2,32 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+.remaining {
+  font-size: 88px;
+}
+
+ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 70%;
+}
+
+li {
+  list-style: none;
+  width: 300px;
+  border: 1px solid #ccc;
+  margin-right: 25px;
+  margin-bottom: 25px;
+  padding: 75px 25px;
+}
+
+li button {
+  padding: 5px 25px;
+  margin: 0 10px;
+}
+
+li h3 {
+  display: block;
+}

@@ -4,13 +4,13 @@ import AnimatedNumber from "react-animated-number";
 import config from "./config";
 import map from "lodash.map";
 import reduce from "lodash.reduce";
+import { dollarFormatter } from "./utils";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.decrement = this.decrement.bind(this);
     this.increment = this.increment.bind(this);
-    console.log(config.budget);
     const remainingTotal = reduce(
       config.budget.items,
       (accum, item) => {
@@ -62,30 +62,30 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.budget);
     return (
       <div className="App">
         <h1>Spend the budget</h1>
-        <h3>
-          Remaining:{" "}
+        <h3 className="remaining">
           <AnimatedNumber
             value={this.state.budget.total}
-            formatValue={(v) =>
-              `$${v.toLocaleString("en-US", { minimumFractionDigits: 0 })}`
-            }
+            formatValue={(v) => dollarFormatter(v)}
             duration={300}
             stepPrecision={0}
           />
         </h3>
-        {map(this.state.budget.items, (i, id) => {
-          return (
-            <li key={i.name}>
-              {i.name}: {i.count}
-              <button onClick={() => this.decrement(i, id)}>Remove</button>
-              <button onClick={() => this.increment(i, id)}>Add</button>
-            </li>
-          );
-        })}
+        <ul>
+          {map(this.state.budget.items, (i, id) => {
+            return (
+              <li key={i.name}>
+                <h3>{i.name}</h3>
+                <h4>{dollarFormatter(i.cost)}</h4>
+                <button onClick={() => this.decrement(i, id)}>-</button>
+                {i.count}
+                <button onClick={() => this.increment(i, id)}>+</button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   }
