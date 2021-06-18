@@ -5,6 +5,8 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "lodash.map": "4.6.0",
+    "lodash.reduce": "4.6.0",
     "react": "17.0.2",
     "react-animated-number": "0.4.4",
     "react-dom": "17.0.2",
