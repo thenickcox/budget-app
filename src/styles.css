@@ -21,6 +21,7 @@ li {
   margin-right: 25px;
   margin-bottom: 25px;
   padding: 75px 25px;
+  position: relative;
 }
 
 li button {
@@ -30,4 +31,42 @@ li button {
 
 li h3 {
   display: block;
+}
+
+.question {
+  display: inline-block;
+}
+
+.question span {
+  background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 0px 4px;
+  border-radius: 25px;
+  font-size: 13px;
+  position: relative;
+  font-weight: normal;
+  cursor: pointer;
+  z-index: 1;
+  bottom: 8px;
+  left: 2px;
+}
+
+.description {
+  transition: 500ms opacity ease-in-out;
+  background: rgba(250, 250, 250, 0.96);
+  border: 1px solid #dedede;
+  padding: 15px 25px;
+  width: 225px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  text-align: left;
+}
+
+.description.show {
+  opacity: 1;
+}
+
+.description.hide {
+  opacity: 0;
 }

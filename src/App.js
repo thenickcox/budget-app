@@ -11,6 +11,7 @@ export default class App extends React.Component {
     super(props);
     this.decrement = this.decrement.bind(this);
     this.increment = this.increment.bind(this);
+    this.toggleTooltip = this.toggleTooltip.bind(this);
     const remainingTotal = reduce(
       config.budget.items,
       (accum, item) => {
@@ -25,6 +26,13 @@ export default class App extends React.Component {
         total: remainingTotal
       }
     };
+  }
+
+  toggleTooltip(id, show = false) {
+    this.setState((prevState) => ({
+      ...prevState,
+      tooltipShown: show ? id : null
+    }));
   }
 
   decrement(item, id) {
@@ -62,6 +70,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.tooltipShown);
     return (
       <div className="App">
         <h1>Spend the budget</h1>
@@ -75,11 +84,33 @@ export default class App extends React.Component {
         </h3>
         <ul>
           {map(this.state.budget.items, (i, id) => {
+            const classes =
+              this.state.tooltipShown === id
+                ? "description show"
+                : "description hide";
+            console.log(this.state.tooltipShown);
             return (
               <li key={i.name}>
-                <h3>{i.name}</h3>
+                <h3>
+                  {i.name}
+                  {i.description && (
+                    <div className="question">
+                      <span
+                        onMouseEnter={() => this.toggleTooltip(id, true)}
+                        onMouseLeave={() => this.toggleTooltip(id, false)}
+                      >
+                        ?<i className={classes}>{i.description}</i>
+                      </span>
+                    </div>
+                  )}
+                </h3>
                 <h4>{dollarFormatter(i.cost)}</h4>
-                <button onClick={() => this.decrement(i, id)}>-</button>
+                <button
+                  onClick={() => this.decrement(i, id)}
+                  disabled={i.count === 0}
+                >
+                  -
+                </button>
                 {i.count}
                 <button onClick={() => this.increment(i, id)}>+</button>
               </li>

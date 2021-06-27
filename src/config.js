@@ -4,7 +4,8 @@ const config = {
     items: {
       1: {
         name: "Give employees healthcare",
-        cost: 100000,
+        cost: 1000000,
+        description: "This should explain what healthcare is all about.",
         count: 0
       },
       2: {
@@ -15,6 +16,8 @@ const config = {
       3: {
         name: "Cost of living pay increase for all staff and faculty",
         cost: 10000000,
+        description:
+          "An explanation of the amount of the increase and the implications",
         count: 0
       },
       4: {
