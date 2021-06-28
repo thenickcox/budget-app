@@ -1,6 +1,7 @@
 import React from "react";
 import "./styles.css";
 import AnimatedNumber from "react-animated-number";
+import { CSVDownloader } from "react-papaparse";
 import config from "./config";
 import map from "lodash.map";
 import reduce from "lodash.reduce";
@@ -70,10 +71,19 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.tooltipShown);
+    const csvData = map(this.state.budget.items, (item) => ({
+      name: item.name,
+      description: item.description,
+      count: item.count,
+      cost: item.cost,
+      total: item.cost * item.count
+    }));
     return (
       <div className="App">
         <h1>Spend the budget</h1>
+        <CSVDownloader data={csvData} type="button" filename={"filename"}>
+          Download CSV
+        </CSVDownloader>
         <h3 className="remaining">
           <AnimatedNumber
             value={this.state.budget.total}
@@ -88,7 +98,6 @@ export default class App extends React.Component {
               this.state.tooltipShown === id
                 ? "description show"
                 : "description hide";
-            console.log(this.state.tooltipShown);
             return (
               <li key={i.name}>
                 <h3>
