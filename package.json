@@ -5,8 +5,10 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "lodash.keys": "4.2.0",
     "lodash.map": "4.6.0",
     "lodash.reduce": "4.6.0",
+    "lodash.values": "4.3.0",
     "react": "17.0.2",
     "react-animated-number": "0.4.4",
     "react-dom": "17.0.2",
@@ -23,5 +25,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

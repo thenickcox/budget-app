@@ -24,6 +24,17 @@ const config = {
         name: "New atheletic facility",
         cost: 40000000,
         count: 2
+      },
+      5: {
+        name: "Per-department Faculty Salary",
+        cost: 2000000,
+        count: 8,
+        thresholds: [
+          {
+            count: 5,
+            effect: "27 faculty jobs will be eliminated"
+          }
+        ]
       }
     }
   }

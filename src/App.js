@@ -5,6 +5,7 @@ import { CSVDownloader } from "react-papaparse";
 import config from "./config";
 import map from "lodash.map";
 import reduce from "lodash.reduce";
+import values from "lodash.values";
 import { dollarFormatter } from "./utils";
 
 export default class App extends React.Component {
@@ -24,6 +25,7 @@ export default class App extends React.Component {
       ...config,
       budget: {
         ...config.budget,
+        warnings: {},
         total: remainingTotal
       }
     };
@@ -37,16 +39,35 @@ export default class App extends React.Component {
   }
 
   decrement(item, id) {
+    const updatedCount = item.count - 1;
+    const itemThresholds = this.state.budget.items[id].thresholds;
+    let warning;
+    let shouldBreak;
+    itemThresholds.forEach((threshold) => {
+      if (shouldBreak) return;
+      if (updatedCount < threshold.count) {
+        warning = threshold.effect;
+        shouldBreak = true;
+      }
+    });
+    const currentWarnings = this.state.budget.warnings;
+    let newWarnings;
+    if (warning) {
+      newWarnings = { ...currentWarnings, warning };
+    } else {
+      newWarnings = currentWarnings;
+    }
     this.setState((prevState) => ({
       ...prevState,
       budget: {
         ...prevState.budget,
         total: prevState.budget.total + item.cost,
+        warnings: newWarnings,
         items: {
           ...prevState.budget.items,
           [id]: {
             ...item,
-            count: item.count - 1
+            count: updatedCount
           }
         }
       }
@@ -81,6 +102,10 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <h1>Spend the budget</h1>
+        {values(this.state.budget.warnings) &&
+          values(this.state.budget.warnings).map((warning) => (
+            <div className="warning">{warning}</div>
+          ))}
         <CSVDownloader data={csvData} type="button" filename={"filename"}>
           Download CSV
         </CSVDownloader>
