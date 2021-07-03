@@ -1,6 +1,7 @@
 const config = {
   budget: {
     total: 250000000,
+    warnings: {},
     items: {
       1: {
         name: "Give employees healthcare",

@@ -6,6 +6,8 @@ import config from "./config";
 import map from "lodash.map";
 import reduce from "lodash.reduce";
 import values from "lodash.values";
+import omit from "lodash.omit";
+import forEach from "lodash.foreach";
 import { dollarFormatter } from "./utils";
 
 export default class App extends React.Component {
@@ -43,17 +45,18 @@ export default class App extends React.Component {
     const itemThresholds = this.state.budget.items[id].thresholds;
     let warning;
     let shouldBreak;
-    itemThresholds.forEach((threshold) => {
+    forEach(itemThresholds, (threshold) => {
       if (shouldBreak) return;
       if (updatedCount < threshold.count) {
-        warning = threshold.effect;
+        warning = { [`${id}-${threshold.count}`]: threshold.effect };
+        console.log(warning);
         shouldBreak = true;
       }
     });
     const currentWarnings = this.state.budget.warnings;
     let newWarnings;
     if (warning) {
-      newWarnings = { ...currentWarnings, warning };
+      newWarnings = { ...currentWarnings, ...warning };
     } else {
       newWarnings = currentWarnings;
     }
@@ -75,11 +78,32 @@ export default class App extends React.Component {
   }
 
   increment(item, id) {
+    const updatedCount = item.count + 1;
+    const itemThresholds = this.state.budget.items[id].thresholds;
+    const currentWarnings = this.state.budget.warnings;
+    console.log(this.state.budget.warnings);
+    let newWarnings;
+    forEach(itemThresholds, (threshold) => {
+      console.log(updatedCount);
+      console.log(threshold.count);
+      console.log(currentWarnings[`${id}-${threshold.count}`]);
+      if (
+        updatedCount > threshold.count &&
+        currentWarnings[`${id}-${threshold.count}`]
+      ) {
+        console.log("omitting");
+        newWarnings = omit(currentWarnings, [`${id}-${threshold.count}`]);
+      } else {
+        newWarnings = currentWarnings;
+      }
+    });
+
     this.setState((prevState) => ({
       ...prevState,
       budget: {
         ...prevState.budget,
         total: prevState.budget.total - item.cost,
+        warnings: newWarnings,
         items: {
           ...prevState.budget.items,
           [id]: {
@@ -92,6 +116,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.budget.warnings);
     const csvData = map(this.state.budget.items, (item) => ({
       name: item.name,
       description: item.description,
@@ -104,7 +129,7 @@ export default class App extends React.Component {
         <h1>Spend the budget</h1>
         {values(this.state.budget.warnings) &&
           values(this.state.budget.warnings).map((warning) => (
-            <div className="warning">{warning}</div>
+            <div className="warning">{Object.values(warning)}</div>
           ))}
         <CSVDownloader data={csvData} type="button" filename={"filename"}>
           Download CSV
