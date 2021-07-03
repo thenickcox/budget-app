@@ -70,3 +70,24 @@ li h3 {
 .description.hide {
   opacity: 0;
 }
+
+.warning {
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: #ffecb5;
+  padding: 15px 25px;
+  max-width: 85%;
+  margin: 16px auto;
+  text-align: left;
+}
+
+.warning svg {
+  width: 20px;
+  margin-right: 5px;
+  position: relative;
+  top: 8px;
+}
+
+.warning svg g {
+  fill: #664d03;
+}

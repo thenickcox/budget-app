@@ -48,8 +48,9 @@ export default class App extends React.Component {
     forEach(itemThresholds, (threshold) => {
       if (shouldBreak) return;
       if (updatedCount < threshold.count) {
-        warning = { [`${id}-${threshold.count}`]: threshold.effect };
-        console.log(warning);
+        warning = {
+          [`${item.name}:${threshold.count}`]: threshold.effect
+        };
         shouldBreak = true;
       }
     });
@@ -81,18 +82,16 @@ export default class App extends React.Component {
     const updatedCount = item.count + 1;
     const itemThresholds = this.state.budget.items[id].thresholds;
     const currentWarnings = this.state.budget.warnings;
-    console.log(this.state.budget.warnings);
     let newWarnings;
     forEach(itemThresholds, (threshold) => {
-      console.log(updatedCount);
-      console.log(threshold.count);
-      console.log(currentWarnings[`${id}-${threshold.count}`]);
       if (
         updatedCount > threshold.count &&
-        currentWarnings[`${id}-${threshold.count}`]
+        currentWarnings[`${item.name}:${threshold.count}`]
       ) {
         console.log("omitting");
-        newWarnings = omit(currentWarnings, [`${id}-${threshold.count}`]);
+        newWarnings = omit(currentWarnings, [
+          `${item.name}-${threshold.count}`
+        ]);
       } else {
         newWarnings = currentWarnings;
       }
@@ -128,9 +127,30 @@ export default class App extends React.Component {
       <div className="App">
         <h1>Spend the budget</h1>
         {values(this.state.budget.warnings) &&
-          values(this.state.budget.warnings).map((warning) => (
-            <div className="warning">{Object.values(warning)}</div>
-          ))}
+          map(Object.keys(this.state.budget.warnings), (key) => {
+            const [name, count] = key.split(":");
+            return (
+              <div className="warning">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 30"
+                  x="0px"
+                  y="0px"
+                >
+                  <title>warning</title>
+                  <g>
+                    <path d="M21.63,17.29,14.08,4.19a2.4,2.4,0,0,0-4.16,0L2.36,17.3A2.5,2.5,0,0,0,4.55,21h14.9a2.49,2.49,0,0,0,2.18-3.72Zm-1.75,1.48a.49.49,0,0,1-.43.24H4.55a.49.49,0,0,1-.43-.24.48.48,0,0,1,0-.48l7.55-13.1a.41.41,0,0,1,.7,0l7.54,13.08A.49.49,0,0,1,19.88,18.77Z" />
+                    <path d="M12,9a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V10A1,1,0,0,0,12,9Z" />
+                    <path d="M11.62,16.09a1,1,0,0,0-.33.22,1,1,0,0,0,0,1.41,1,1,0,0,0,1.42-1.41A1,1,0,0,0,11.62,16.09Z" />
+                  </g>
+                </svg>
+                As the result of this budgetary change,{" "}
+                <strong>{this.state.budget.warnings[key]}</strong>. To fix this,
+                adjust the count of <strong>"{name}"</strong> above{" "}
+                <strong>{count}</strong>.
+              </div>
+            );
+          })}
         <CSVDownloader data={csvData} type="button" filename={"filename"}>
           Download CSV
         </CSVDownloader>
