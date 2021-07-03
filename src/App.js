@@ -47,7 +47,7 @@ export default class App extends React.Component {
     let shouldBreak;
     forEach(itemThresholds, (threshold) => {
       if (shouldBreak) return;
-      if (updatedCount < threshold.count) {
+      if (updatedCount <= threshold.count) {
         warning = {
           [`${item.name}:${threshold.count}`]: threshold.effect
         };
