@@ -91,3 +91,18 @@ li h3 {
 .warning svg g {
   fill: #664d03;
 }
+
+.download-container button {
+  display: flex;
+  margin: 0 auto;
+  width: 150px;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-container svg {
+  width: 20px;
+  position: relative;
+  top: 2px;
+  margin-left: 5px;
+}
