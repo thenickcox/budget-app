@@ -190,6 +190,12 @@ export default class App extends React.Component {
                 : "description hide";
             return (
               <li key={i.name}>
+                {i.icon && (
+                  <div
+                    className="icon"
+                    dangerouslySetInnerHTML={{ __html: i.icon }}
+                  />
+                )}
                 <h3>
                   {i.name}
                   {i.description && (
