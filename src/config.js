@@ -3,12 +3,6 @@ const config = {
     total: 250000000,
     warnings: {},
     items: {
-      1: {
-        name: "Give employees healthcare",
-        cost: 1000000,
-        description: "This should explain what healthcare is all about.",
-        count: 0
-      },
       2: {
         name: "Scholarship Programs for Students of Color",
         cost: 1000000,
@@ -36,6 +30,11 @@ const config = {
             effect: "27 faculty jobs will be eliminated"
           }
         ]
+      },
+      6: {
+        name: "International Student Affairs",
+        cost: 1000000,
+        count: 1
       }
     }
   }

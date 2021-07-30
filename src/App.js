@@ -88,7 +88,6 @@ export default class App extends React.Component {
         updatedCount > threshold.count &&
         currentWarnings[`${item.name}:${threshold.count}`]
       ) {
-        console.log("omitting");
         newWarnings = omit(currentWarnings, [
           `${item.name}:${threshold.count}`
         ]);
@@ -102,7 +101,7 @@ export default class App extends React.Component {
       budget: {
         ...prevState.budget,
         total: prevState.budget.total - item.cost,
-        warnings: newWarnings,
+        warnings: newWarnings || {},
         items: {
           ...prevState.budget.items,
           [id]: {
@@ -115,7 +114,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.budget.warnings);
+    console.log(this.state.budget);
     const csvData = map(this.state.budget.items, (item) => ({
       name: item.name,
       description: item.description,
@@ -126,7 +125,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <h1>Spend the budget</h1>
-        {values(this.state.budget.warnings) &&
+        {Object.keys(this.state.budget.warnings) &&
           map(Object.keys(this.state.budget.warnings), (key) => {
             const [name, count] = key.split(":");
             return (
