@@ -3,6 +3,16 @@
   text-align: center;
 }
 
+header {
+  text-align: left;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+header h3 {
+  text-align: center;
+}
+
 .remaining {
   font-size: 88px;
 }

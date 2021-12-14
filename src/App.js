@@ -9,6 +9,7 @@ import values from "lodash.values";
 import omit from "lodash.omit";
 import forEach from "lodash.foreach";
 import { dollarFormatter } from "./utils";
+import IntroParagraph from "./IntroParagraph";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -125,6 +126,9 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <h1>Spend the budget</h1>
+        <header>
+          <IntroParagraph />
+        </header>
         {Object.keys(this.state.budget.warnings) &&
           map(Object.keys(this.state.budget.warnings), (key) => {
             const [name, count] = key.split(":");
